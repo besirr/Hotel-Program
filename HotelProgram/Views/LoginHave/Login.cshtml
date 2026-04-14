@@ -1,0 +1,78 @@
+﻿@model HotelProgram.Models.LoginModels
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+
+    <div class="login-card">
+
+        <div class="login-logo-wrap">
+            <img src="~/image/by_logo.png" class="login-logo" alt="Logo" />
+        </div>
+
+        <h1 class="login-title">Hoş Geldiniz</h1>
+        <p class="login-sub">Yönetim paneline erişmek için giriş yapın</p>
+
+        <form method="post" class="login-form">
+
+            @if (ViewContext.HttpContext.Request.Method == "POST")
+            {
+                <div asp-validation-summary="All" class="errorBox">
+                    <span class="error-icon">⚠</span>
+                    @ViewBag.Error
+                </div>
+            }
+
+            <div class="field-group">
+                <label class="field-label">Kullanıcı Adı</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 7a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </span>
+                    <input asp-for="Username" placeholder="Kullanıcı adınızı girin" autocomplete="username" required />
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Şifre</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </span>
+                    <input asp-for="Password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password" required />
+                </div>
+            </div>
+
+            <button class="loginButton" type="submit"
+                    asp-controller="LoginHave" asp-action="Login">
+                Giriş Yap
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </button>
+
+            <div class="divider"><span>veya</span></div>
+
+            <a href="/LoginHave/Register" class="register-link">
+                <button type="button" class="RegisterButton">Hesap Oluştur</button>
+            </a>
+
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+    var name = Context.Session.GetString("UsernameLastname");
+
+
+}
+
+<link rel="stylesheet" href="~/css/AdminView.css" />
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Admin Panel</title>
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <style>
+        .btn-logout {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(224,90,90,0.25);
+            background: rgba(224,90,90,0.08);
+            color: #e05a5a;
+            text-decoration: none;
+            transition: all 0.18s;
+        }
+
+            .btn-logout:hover {
+                background: rgba(224,90,90,0.16);
+                border-color: rgba(224,90,90,0.45);
+                transform: translateY(-1px);
+            }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ MAIN ═══ -->
+    <main class="main">
+        <section class="page active" id="page-welcome">
+            <div class="welcome-wrap">
+                <div class="welcome-icon">🏨</div>
+                <h1 class="welcome-title">Hoş Geldiniz, <span>@name</span></h1>
+                <p class="welcome-sub">
+                    Sol üstteki menüye tıklayarak yönetim paneline erişebilirsiniz.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══ JS ═══ -->
+    <script src="~/js/userView.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿@{
+    var authority = Context.Session.GetString("Authority") ?? string.Empty;
+    var roleid = Context.Session.GetString("RoleID") ?? string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Test Hotel</title>
+    <link rel="stylesheet" href="~/css/Layout.css" />
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menüyü aç/kapat">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <div class="header-logo">
+            Test <span>Hotel</span>
+        </div>
+        <a class="btn-logout"
+           asp-action="Logout"
+           asp-controller="AdminPanel"
+           onclick="return confirm('Çıkış yapmak istediğinize emin misiniz?')">
+            🚪 Çıkış Yap
+        </a>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+
+        @if (authority == "1" && roleid == "1")
+        {
+            <div class="sidebar-header">
+                <span class="sidebar-dot"></span>
+                <span class="sidebar-title">Yönetim Paneli</span>
+            </div>
+            <div class="sidebar-nav">
+                <span class="nav-label">Yönetim</span>
+                <a class="nav-item" asp-action="Profile" asp-controller="LoginHave">
+                    <span class="nav-icon">👤</span> Profil
+                </a>
+                <a class="nav-item" asp-action="AdminUsersPanel" asp-controller="AdminPanel">
+                    <span class="nav-icon">👥</span> Kullanıcılar
+                </a>
+                <a class="nav-item" asp-action="ReceptionUserView" asp-controller="UserPanel">
+                    <span class="nav-icon">🏨</span> Rezervasyon
+                </a>
+                <a class="nav-item" asp-action="AdminRoomsPanel" asp-controller="AdminPanel">
+                    <span class="nav-icon">🛏</span> Odalar
+                </a>
+                <a class="nav-item" asp-action="AdminRoomAssignment" asp-controller="AdminPanel">
+                    <span class="nav-icon">📋</span> Görev Atamaları
+                </a>
+                <a class="nav-item" asp-action="RoomsTasksAndUserList" asp-controller="AdminPanel">
+                    <span class="nav-icon">🧹</span> Görevler
+                </a>
+            </div>
+        }
+        else if (authority == "0" && roleid == "2")
+        {
+            <div class="sidebar-header">
+                <span class="sidebar-dot"></span>
+                <span class="sidebar-title">Personel Paneli</span>
+            </div>
+            <div class="sidebar-nav">
+                <span class="nav-label">Personel Paneli</span>
+                <a class="nav-item" asp-action="Profile" asp-controller="LoginHave">
+                    <span class="nav-icon">👤</span> Profil
+                </a>
+                <a class="nav-item" asp-action="UserRoomsTasks" asp-controller="UserPanel">
+                    <span class="nav-icon">🧹</span> Temizlik Görevleri
+                </a>
+                <a class="nav-item" asp-action="Rooms" asp-controller="UserPanel">
+                    <span class="nav-icon">🏢</span> Odalar
+                </a>
+            </div>
+        }
+        else if (authority == "0" && roleid == "3")
+        {
+            <div class="sidebar-header">
+                <span class="sidebar-dot"></span>
+                <span class="sidebar-title">Personel Paneli</span>
+            </div>
+            <div class="sidebar-nav">
+                <span class="nav-label">Personel Paneli</span>
+                <a class="nav-item" asp-action="Profile" asp-controller="LoginHave">
+                    <span class="nav-icon">👤</span> Profil
+                </a>
+                <a class="nav-item" asp-action="ReceptionUserView" asp-controller="UserPanel">
+                    <span class="nav-icon">🏨</span> Rezervasyon
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="sidebar-nav">
+                <span class="nav-label">Yetkisiz Erişim</span>
+            </div>
+        }
+
+    </nav>
+
+    <!-- SAYFA İÇERİĞİ -->
+    <main class="main">
+        @RenderBody()
+    </main>
+
+    <script src="~/js/layout.js"></script>
+
+</body>
+</html>

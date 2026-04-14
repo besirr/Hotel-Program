@@ -1,0 +1,209 @@
+﻿@using HotelProgram.Models
+@model IEnumerable<HotelProgram.Models.Room>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Oda Listesi";
+    var blocks = ViewBag.Blocks as IEnumerable<Block> ?? Enumerable.Empty<Block>();
+    var floors = Model?.Select(r => r.RoomNumber / 100).Distinct().OrderBy(f => f).ToList() ?? new List<int>();
+}
+<link rel="stylesheet" href="~/css/AdminRooms.css" />
+
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+    <section class="page active">
+
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Oda Yönetimi</h1>
+                <p class="page-subtitle">Tüm bloklardaki odaları görüntüle ve yönet</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <a class="btn-back" asp-action="AdminView" asp-controller="AdminPanel">&larr; Panele Dön</a>
+                <span class="badge-count" id="roomCount">@(Model?.Count() ?? 0) oda</span>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+
+            <div class="table-toolbar">
+                <div class="search-box">
+                    <span class="search-icon">&#128269;</span>
+                    <input type="text" id="searchInput"
+                           placeholder="Oda no veya blok ile ara..."
+                           oninput="applyFilters()" />
+                </div>
+                <button onclick="openAddRow()"
+                        style="padding:7px 14px;background:#4f6ef7;color:white;border:none;border-radius:8px;
+                               font-size:.82rem;font-family:inherit;font-weight:500;cursor:pointer;transition:all .18s;"
+                        onmouseover="this.style.background='#3a57d4'"
+                        onmouseout="this.style.background='#4f6ef7'">
+                    &#43; Oda Ekle
+                </button>
+            </div>
+
+            <!-- Kat Filtreleri -->
+            <div style="margin-bottom:6px;font-size:.78rem;color:var(--text-light);font-weight:500;">Kata Göre</div>
+            <div class="filter-chips" id="floorChips">
+                <span class="chip active" data-floor="all" onclick="setFloorFilter('all', this)">Tüm Katlar</span>
+                @foreach (var f in floors)
+                {
+                    <span class="chip" data-floor="@f" onclick="setFloorFilter('@f', this)">@f. Kat</span>
+                }
+            </div>
+
+            <!-- Blok Filtreleri -->
+            <div style="margin-bottom:6px;font-size:.78rem;color:var(--text-light);font-weight:500;margin-top:10px;">Bloğa Göre</div>
+            <div class="filter-chips" id="filterChips">
+                <span class="chip active" data-block="all" onclick="setBlockFilter('all', this)">Tümü</span>
+                @foreach (var b in blocks)
+                {
+                    <span class="chip" data-block="@b.Id" onclick="setBlockFilter('@b.Id', this)">
+                        @b.BlockName Bloğu
+                    </span>
+                }
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table id="roomTable">
+                    <thead>
+                        <tr>
+                            <th>Blok</th>
+                            <th>Oda No</th>
+                            <th>Durum</th>
+                            <th>ID</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr id="addRow" style="display:none;">
+                            <td>
+                                <select class="edit-input" id="new-BlockId">
+                                    @foreach (var b in blocks)
+                                    {
+                                        <option value="@b.Id">@b.BlockName</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input class="edit-input" id="new-RoomNumber"
+                                       type="number" placeholder="Oda Numarası" min="1" />
+                            </td>
+                            <td>
+                                <select class="edit-input" id="new-IsActive">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Pasif</option>
+                                </select>
+                            </td>
+                            <td style="color:var(--text-light);font-size:.78rem;">—</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="btn btn-save" onclick="saveNewRoom()">&#10003; Kaydet</button>
+                                    <button class="btn btn-cancel" onclick="closeAddRow()">&#10007; Vazgeç</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var room in Model)
+                            {
+                                var block = blocks.FirstOrDefault(b => b.Id == room.BlockId);
+                                var blockName = block?.BlockName ?? "—";
+                                var floor = room.RoomNumber / 100;
+
+                                <tr id="row-@room.Id" data-block="@room.BlockId" data-floor="@floor">
+                                    <td>
+                                        <span class="view-mode">
+                                            <span class="block-badge">@blockName</span>
+                                        </span>
+                                        <select class="edit-mode edit-input" name="BlockId" style="display:none;">
+                                            @foreach (var b in blocks)
+                                            {
+                                                if (b.Id == room.BlockId)
+                                                {
+                                                    <option value="@b.Id" selected="selected">@b.BlockName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@b.Id">@b.BlockName</option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <span class="view-mode">@room.RoomNumber</span>
+                                        <input class="edit-mode edit-input" name="RoomNumber"
+                                               value="@room.RoomNumber" type="number" min="1"
+                                               style="display:none;" />
+                                    </td>
+
+                                    <td>
+                                        <span class="view-mode">
+                                            @if (room.IsActive == 1)
+                                            {
+                                                <span class="status-badge active">&#9679; Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge inactive">&#9679; Pasif</span>
+                                            }
+                                        </span>
+                                        <select class="edit-mode edit-input" name="IsActive" style="display:none;">
+                                            @if (room.IsActive == 1)
+                                            {
+                                                <option value="1" selected="selected">Aktif</option>
+                                                <option value="0">Pasif</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Aktif</option>
+                                                <option value="0" selected="selected">Pasif</option>
+                                            }
+                                        </select>
+                                    </td>
+
+                                    <td style="color:var(--text-light);font-size:.78rem;">#@room.Id</td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn btn-edit view-mode" onclick="startEdit(@room.Id)">
+                                                &#9999;&#65039; Düzenle
+                                            </button>
+                                            <a class="btn btn-delete view-mode"
+                                               asp-action="DeleteRoom"
+                                               asp-controller="AdminPanel"
+                                               asp-route-id="@room.Id"
+                                               onclick="return confirm('Bu odayı silmek istediğinize emin misiniz?')">
+                                                Sil
+                                            </a>
+                                            <button class="btn btn-save edit-mode" style="display:none;" onclick="saveEdit(@room.Id)">
+                                                &#10003; Kaydet
+                                            </button>
+                                            <button class="btn btn-cancel edit-mode" style="display:none;" onclick="cancelEdit(@room.Id)">
+                                                &#10007; Vazgeç
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr id="emptyRow">
+                                <td colspan="5" style="text-align:center;padding:48px;color:var(--text-light);">
+                                    Henüz kayıtlı oda bulunmuyor.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="~/js/adminRoomsPanel.js"></script>

@@ -1,0 +1,269 @@
+﻿@model IEnumerable<HotelProgram.Models.User>
+
+@{
+    ViewData["Title"] = "Kullanici Listesi";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Listesi</title>
+    <link rel="stylesheet" href="~/css/AdminUser.css" />
+</head>
+<body>
+
+    <main class="main">
+        <section class="page">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Kullanıcı Yönetimi</h1>
+                    <p class="page-subtitle">Sistemdeki tüm kayıtlı kullanıcılar</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <a class="btn-back" asp-action="AdminView" asp-controller="AdminPanel">&larr; Panele Dön</a>
+                    <span class="badge-count" id="userCount">@(Model?.Count() ?? 0) kullanıcı</span>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <div class="table-toolbar">
+                    <div class="search-box">
+                        <span class="search-icon">&#128269;</span>
+                        <input type="text" id="searchInput"
+                               placeholder="TC, ad veya yetki ile ara..."
+                               oninput="filterTable()" />
+                    </div>
+                    <button class="btn-add-open" onclick="openAddRow()">
+                        &#43; Kullanıcı Ekle
+                    </button>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table id="userTable">
+                        <thead>
+                            <tr>
+                                <th>TC Kimlik No</th>
+                                <th>Kullanıcı Adı</th>
+                                <th>Ad Soyad</th>
+                                <th>Yetki</th>
+                                <th>Durum</th>
+                                <th>Ünvan</th>
+                                <th>Şifre</th>
+                                <th>ID</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- ── YENİ KULLANICI SATIRI ── -->
+                            <tr id="addRow">
+                                <td><input class="edit-input" id="new-TC" oninput="this.value=this.value.replace(/[^0-9]/g,'')" placeholder="11 haneli TC" maxlength="11" /></td>
+                                <td><input class="edit-input" id="new-Username" placeholder="Kullanıcı adı" /></td>
+                                <td><input class="edit-input" id="new-UsernameLastname" placeholder="Ad Soyad" /></td>
+                                <td>
+                                    <select class="edit-input" id="new-Authority">
+                                        <option value="0">Kullanıcı</option>
+                                        <option value="1">Admin</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="edit-input" id="new-IsActive">
+                                        <option value="0">Pasif</option>
+                                        <option value="1">Aktif</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="edit-input" id="new-RoleID">
+                                        <option value="1">Müdür</option>
+                                        <option value="2">Oda Temizlik Görevlisi</option>
+                                        <option value="3">Resepsiyon Görevlisi</option>
+
+                                    </select>
+                                </td>
+                                <td><input class="edit-input" id="new-Password" placeholder="Şifre" type="text" /></td>
+                                <td style="color:var(--text-light);font-size:0.78rem;">—</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-save" onclick="saveNewUser()">&#10003; Kaydet</button>
+                                        <button class="btn btn-cancel" onclick="closeAddRow()">&#10007; Vazgeç</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- ── ── ── ── ── ── ── ── ── -->
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var user in Model)
+                                {
+                                    <tr id="row-@user.ID">
+
+                                        <!-- TC -->
+                                        <td>
+                                            <span class="view-mode td-tc">@user.TC</span>
+                                            <input class="edit-mode edit-input" name="TC"
+                                                   oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                                   maxlength="11" value="@user.TC" style="display:none;" />
+                                        </td>
+
+                                        <!-- Kullanıcı Adı -->
+                                        <td>
+                                            <span class="view-mode td-username">@user.Username</span>
+                                            <input class="edit-mode edit-input" name="Username"
+                                                   value="@user.Username" style="display:none;" />
+                                        </td>
+
+                                        <!-- Ad Soyad -->
+                                        <td>
+                                            <span class="view-mode td-fullname">@user.UsernameLastname</span>
+                                            <input class="edit-mode edit-input" name="UsernameLastname"
+                                                   value="@user.UsernameLastname" style="display:none;" />
+                                        </td>
+
+                                        <!-- Yetki (Admin / Kullanıcı) -->
+                                        <td>
+                                            <span class="view-mode">
+                                                @if (user.Authority == 1)
+                                                {
+                                                    <span class="badge badge-admin">&#11088; Admin</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-user">&#128100; Kullanıcı</span>
+                                                }
+                                            </span>
+                                            <select class="edit-mode edit-input" name="Authority" style="display:none;">
+                                                @if (user.Authority == 1)
+                                                {
+                                                    <option value="1" selected="selected">Admin</option>
+                                                    <option value="0">Kullanıcı</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Admin</option>
+                                                    <option value="0" selected="selected">Kullanıcı</option>
+                                                }
+                                            </select>
+                                        </td>
+
+                                        <!-- Aktiflik Durumu -->
+                                        <td>
+                                            <span class="view-mode">
+                                                @if (user.IsActive == 1)
+                                                {
+                                                    <span class="badge badge-active">&#9679; Aktif</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-passive">&#9679; Pasif</span>
+                                                }
+                                            </span>
+                                            <select class="edit-mode edit-input" name="IsActive" style="display:none;">
+                                                @if (user.IsActive == 1)
+                                                {
+                                                    <option value="1" selected="selected">Aktif</option>
+                                                    <option value="0">Pasif</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Aktif</option>
+                                                    <option value="0" selected="selected">Pasif</option>
+                                                }
+                                            </select>
+                                        </td>
+
+                                        <!-- Ünvan (Müdür / Görevli) -->
+                                        <td>
+                                            <span class="view-mode">
+                                                @if (user.RoleID == 1)
+                                                {
+                                                    <span class="badge badge-manager">&#127970; Müdür</span>
+                                                }
+                                                else if (user.RoleID == 3)
+                                                {
+                                                    <span class="badge badge-reception">&#128188; Resepsiyon Görevlisi</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-cleaner">&#129529; Oda Görevlisi</span>
+                                                }
+                                            </span>
+                                            <select class="edit-mode edit-input" name="RoleID" style="display:none;">
+                                                @if (user.RoleID == 1)
+                                                {
+                                                    <option value="1" selected="selected">Müdür</option>
+                                                    <option value="2">Oda Temizlik Görevlisi</option>
+                                                    <option value="3">Resepsiyon Görevlisi</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Müdür</option>
+                                                    <option value="2" selected="selected">Oda Temizlik Görevlisi</option>
+                                                    <option value="3">Resepsiyon Görevlisi</option>
+                                                }
+                                            </select>
+                                        </td>
+
+                                        <!-- Şifre -->
+                                        <td>
+                                            <span class="view-mode td-password">@user.Password</span>
+                                            <input class="edit-mode edit-input" name="Password"
+                                                   value="@user.Password" style="display:none;" />
+                                        </td>
+
+                                        <!-- ID -->
+                                        <td style="color:var(--text-light);font-size:0.78rem;">#@user.ID</td>
+
+                                        <!-- İşlemler -->
+                                        <td>
+                                            <div class="actions">
+                                                <button class="btn btn-edit view-mode" onclick="startEdit(@user.ID)">
+                                                    &#9999;&#65039; Düzenle
+                                                </button>
+                                                @if (Context.Session.GetString("ID") != user.ID.ToString())
+                                                {
+                                                    <a class="btn btn-delete view-mode"
+                                                       asp-action="delete"
+                                                       asp-controller="AdminPanel"
+                                                       asp-route-id="@user.ID"
+                                                       onclick="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')">
+                                                        &#128465; Sil
+                                                    </a>
+                                                }
+                                                <button class="btn btn-save edit-mode"
+                                                        style="display:none;"
+                                                        onclick="saveEdit(@user.ID)">
+                                                    &#10003; Kaydet
+                                                </button>
+                                                <button class="btn btn-cancel edit-mode"
+                                                        style="display:none;"
+                                                        onclick="cancelEdit(@user.ID)">
+                                                    &#10007; Vazgeç
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr id="emptyRow">
+                                    <td colspan="9" style="text-align:center;padding:48px;color:var(--text-light);">
+                                        Henüz kayıtlı kullanıcı bulunmuyor.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="~/js/adminUsersPanel.js"></script>
+
+</body>
+</html>

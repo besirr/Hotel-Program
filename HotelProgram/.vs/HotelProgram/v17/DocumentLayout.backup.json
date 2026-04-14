@@ -1,0 +1,143 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\controllers\\auth\\loginhave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\auth\\loginhave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\controllers\\admin\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\admin\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\loginhave\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\loginhave\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\userpanel\\receptionuserview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\userpanel\\receptionuserview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\models\\loginmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:models\\loginmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 231,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginHave.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
+              "RelativeDocumentMoniker": "Controllers\\Auth\\LoginHave.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
+              "RelativeToolTip": "Controllers\\Auth\\LoginHave.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAwwDIAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:53:22.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Home\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Home\\HomeController.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Home\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\Home\\HomeController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAA1wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:53:13.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminPanelController.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Admin\\AdminPanelController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\AdminPanelController.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Admin\\AdminPanelController.cs",
+              "RelativeToolTip": "Controllers\\Admin\\AdminPanelController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:53:05.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Register.cshtml",
+              "RelativeDocumentMoniker": "Views\\LoginHave\\Register.cshtml",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Register.cshtml",
+              "RelativeToolTip": "Views\\LoginHave\\Register.cshtml",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T09:52:53.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:46:15.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginModels.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\LoginModels.cs",
+              "RelativeDocumentMoniker": "Models\\LoginModels.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\LoginModels.cs",
+              "RelativeToolTip": "Models\\LoginModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:46:09.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReceptionUserView.cshtml",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\UserPanel\\ReceptionUserView.cshtml",
+              "RelativeDocumentMoniker": "Views\\UserPanel\\ReceptionUserView.cshtml",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\UserPanel\\ReceptionUserView.cshtml",
+              "RelativeToolTip": "Views\\UserPanel\\ReceptionUserView.cshtml",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAqwIwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T08:45:45.658Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

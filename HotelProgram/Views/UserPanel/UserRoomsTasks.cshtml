@@ -1,0 +1,152 @@
+@model IEnumerable<HotelProgram.Models.RoomsTasksAndUserList>
+
+@{
+    ViewData["Title"] = "Görevlerim";
+    Layout = "_Layout";
+}
+
+<link rel="stylesheet" href="~/css/UserRoomTasks.css" />
+
+<div class="urt-page">
+
+    <!-- Header -->
+    <div class="urt-header">
+        <div class="urt-header-left">
+            <div class="urt-icon">🏨</div>
+            <div>
+                <h1 class="urt-title">Görevlerim</h1>
+                <p class="urt-subtitle">Atanmış oda listesi</p>
+            </div>
+        </div>
+        <span class="urt-badge-count" id="rowCount">@(Model?.Count() ?? 0) görev</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="urt-stats">
+        <div class="urt-stat">
+            <span class="urt-stat-label">Toplam Görev</span>
+            <span class="urt-stat-value">@(Model?.Count() ?? 0)</span>
+        </div>
+        <div class="urt-stat urt-stat--blue">
+            <span class="urt-stat-label">Aktif</span>
+            <span class="urt-stat-value">@(Model?.Count(x => x.BitmeTarihi == null) ?? 0)</span>
+        </div>
+        <div class="urt-stat urt-stat--green">
+            <span class="urt-stat-label">Tamamlanan</span>
+            <span class="urt-stat-value">@(Model?.Count(x => x.BitmeTarihi != null) ?? 0)</span>
+        </div>
+        <div class="urt-stat urt-stat--purple">
+            <span class="urt-stat-label">Blok Sayısı</span>
+            <span class="urt-stat-value">@(Model?.Select(x => x.BlockName).Distinct().Count() ?? 0)</span>
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="urt-card">
+
+        <!-- Toolbar -->
+        <div class="urt-toolbar">
+            <div class="urt-search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="Oda numarası veya blok ara…" />
+            </div>
+            <div class="urt-filters">
+                <button class="urt-filter active" data-filter="all">Tümü</button>
+                <button class="urt-filter" data-filter="active">Aktif</button>
+                <button class="urt-filter" data-filter="done">Tamamlanan</button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="urt-table-wrap">
+            <table id="taskTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Oda No</th>
+                        <th>Blok</th>
+                        <th>Atanma Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th>Durum</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="7">
+                                <div class="urt-empty">Henüz atanmış görev bulunmuyor.</div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            string statusClass = item.BitmeTarihi != null ? "done" : "active";
+                            string statusLabel = item.BitmeTarihi != null ? "Tamamlandı" : "Aktif";
+                            string atanmaStr = item.AtanmaTarihi.ToString("yyyy-MM-ddTHH:mm");
+                            string atanmaDisp = item.AtanmaTarihi.ToString("dd.MM.yyyy");
+                            string bitmeDisp = item.BitmeTarihi.HasValue
+                            ? item.BitmeTarihi.Value.ToString("dd.MM.yyyy HH:mm")
+                            : "—";
+                            <tr data-id="@item.ID"
+                                data-atanma="@atanmaStr"
+                                data-status="@statusClass">
+                                <td class="urt-td-no">@(i++)</td>
+                                <td>
+                                    <span class="urt-chip urt-chip--blue">Oda @item.RoomNumber</span>
+                                </td>
+                                <td>
+                                    <span class="urt-chip urt-chip--dark">@item.BlockName</span>
+                                </td>
+                                <td>
+                                    <div class="urt-date">
+                                        <span>@atanmaDisp</span>
+                                    </div>
+                                </td>
+                                <td class="td-bitme">
+                                    <div class="urt-date view-mode">
+                                        <span>@bitmeDisp</span>
+                                    </div>
+                                    <div class="edit-mode" style="display:none;">
+                                        <input type="datetime-local"
+                                               class="urt-date-input bitme-input"
+                                               value="@(item.BitmeTarihi.HasValue? item.BitmeTarihi.Value.ToString("yyyy-MM-ddTHH:mm") : "")"
+                                               min="@atanmaStr" />
+                                        <span class="urt-date-hint">Atanma tarihinden önce seçilemez</span>
+                                    </div>
+                                </td>
+                                <td class="td-status">
+                                    <span class="urt-status urt-status--@statusClass">@statusLabel</span>
+                                </td>
+                                <td class="td-actions">
+                                    <div class="btn-view">
+                                        <button class="urt-btn urt-btn--edit" onclick="startEdit(this)">✏ Düzenle</button>
+                                    </div>
+                                    <div class="btn-edit" style="display:none; gap:6px; display:none;">
+                                        <button class="urt-btn urt-btn--save" onclick="saveEdit(this)">✔ Kaydet</button>
+                                        <button class="urt-btn urt-btn--cancel" onclick="cancelEdit(this)">✖ Vazgeç</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="urt-footer" id="tableFooter">
+            @(Model?.Count() ?? 0) kayıt gösteriliyor
+        </div>
+    </div>
+</div>
+
+<script src="~/js/userRoomsTasks.js"></script>

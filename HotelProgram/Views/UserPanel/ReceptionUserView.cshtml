@@ -1,0 +1,308 @@
+﻿@model IEnumerable<HotelProgram.Models.RoomsAndCustomer>
+@{
+    ViewData["Title"] = "Rezervasyon Yönetimi";
+    Layout = "_Layout";
+    var rooms  = ViewBag.Rooms  as IEnumerable<HotelProgram.Models.Room>  ?? new List<HotelProgram.Models.Room>();
+    var blocks = ViewBag.Blocks as IEnumerable<HotelProgram.Models.Block> ?? new List<HotelProgram.Models.Block>();
+}
+<link rel="stylesheet" href="~/css/rezervasyon.css" />
+
+<div class="rez-page">
+
+    <!-- HEADER -->
+    <div class="rez-header">
+        <div>
+            <h1 class="rez-title">Rezervasyon Yönetimi</h1>
+            <p class="rez-subtitle">Check-in · Check-out · Oda Transferi · Ödeme Takibi</p>
+        </div>
+        <button class="btn-open-modal" onclick="openAddModal()">+ Yeni Rezervasyon</button>
+    </div>
+
+    <!-- STATS -->
+    @{
+        var today         = DateTime.Today;
+        var checkinToday  = Model?.Count(r => r.CheckInDate.Date  == today && r.Status != 4) ?? 0;
+        var checkoutToday = Model?.Count(r => r.CheckOutDate.Date == today && r.Status != 4) ?? 0;
+        var odada         = Model?.Count(r => r.Status == 2) ?? 0;
+        var rezerve       = Model?.Count(r => r.Status == 1) ?? 0;
+    }
+    <div class="rez-stats">
+        <div class="rez-stat"><div class="rez-stat-label">Bugün Check-in</div><div class="rez-stat-value">@checkinToday</div></div>
+        <div class="rez-stat"><div class="rez-stat-label">Bugün Check-out</div><div class="rez-stat-value">@checkoutToday</div></div>
+        <div class="rez-stat rez-stat--blue"><div class="rez-stat-label">Odada</div><div class="rez-stat-value">@odada</div></div>
+        <div class="rez-stat rez-stat--yellow"><div class="rez-stat-label">Rezerve</div><div class="rez-stat-value">@rezerve</div></div>
+    </div>
+
+    <!-- TABLO -->
+    <div class="rez-card">
+        <div class="rez-toolbar">
+            <div class="rez-search">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="İsim, TC veya oda ara..." oninput="filterTable()" />
+            </div>
+            <div class="rez-filters">
+                <button class="rez-filter active" data-filter="all" onclick="setFilter('all',this)">Tümü</button>
+                <button class="rez-filter" data-filter="1" onclick="    ">📅 Rezerve</button>
+                <button class="rez-filter" data-filter="2" onclick="setFilter('2',this)">✔ Odada</button>
+                <button class="rez-filter" data-filter="3" onclick="setFilter('3',this)">🏁 Çıkış</button>
+                <button class="rez-filter" data-filter="4" onclick="setFilter('4',this)">✕ İptal</button>
+            </div>
+        </div>
+
+        <div class="rez-table-wrap">
+            <table id="rezTable">
+                <thead>
+                    <tr>
+                        <th>Misafir</th>
+                        <th>TC</th>
+                        <th>Oda</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Toplam</th>
+                        <th>Ön Ödeme</th>
+                        <th>Kalan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var r in Model)
+                    {
+                        var blkName = blocks.FirstOrDefault(b => b.Id == r.BlockID)?.BlockName ?? r.BlockID.ToString();
+                        var kalan   = r.FeePaid - r.DepositAmount;
+                        <tr id="row-@r.ID" data-status="@r.Status">
+                            <td>
+                                @r.NameAndSurname
+                                @if (r.TransferredFromRoom.HasValue)
+                                {
+                                    <span class="rez-transfer-badge" title="Transfer edildi">🔀</span>
+                                }
+                            </td>
+                            <td>@r.CustomerTC</td>
+                            <td><span class="rez-chip">@blkName - @r.RoomNumber</span></td>
+                            <td>@r.CheckInDate.ToString("dd.MM.yyyy")</td>
+                            <td>@r.CheckOutDate.ToString("dd.MM.yyyy")</td>
+                            <td>₺@r.FeePaid.ToString("N0")</td>
+                            <td>₺@r.DepositAmount.ToString("N0")</td>
+                            <td class="@(kalan > 0 ? "td-remaining" : "td-paid")">₺@kalan.ToString("N0")</td>
+                            <td>
+                                @if (r.Status == 1)      { <span class="rez-badge rez-badge--rezerve">📅 Rezerve</span> }
+                                else if (r.Status == 2)  { <span class="rez-badge rez-badge--active">✔ Odada</span> }
+                                else if (r.Status == 3)  { <span class="rez-badge rez-badge--checkout">🏁 Çıkış Yaptı</span> }
+                                else                     { <span class="rez-badge rez-badge--iptal">✕ İptal</span> }
+                            </td>
+                            <td>
+                                <div class="rez-actions">
+                                    @if (r.Status == 1)
+                                    {
+                                        <button class="rez-btn rez-btn--checkin"  onclick="doCheckIn(@r.ID)">✔ Giriş</button>
+                                        <button class="rez-btn rez-btn--edit"     onclick="openEditModal(@r.ID)">✎</button>
+                                        <button class="rez-btn rez-btn--delete"   onclick="deleteRez(@r.ID)">✕</button>
+                                    }
+                                    else if (r.Status == 2)
+                                    {
+                                        <button class="rez-btn rez-btn--checkout"  onclick="doCheckOut(@r.ID)">🏁 Çıkış</button>
+                                        <button class="rez-btn rez-btn--transfer"  onclick="openTransferModal(@r.ID)">🔀</button>
+                                        <button class="rez-btn rez-btn--payment"   onclick="openPaymentModal(@r.ID)">💳</button>
+                                        <button class="rez-btn rez-btn--edit"      onclick="openEditModal(@r.ID)">✎</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="rez-btn rez-btn--edit" onclick="openEditModal(@r.ID)">✎ Detay</button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="10" class="rez-empty">Henüz rezervasyon bulunmuyor.</td></tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════ ADD MODAL ═══════════════ -->
+<div class="modal-overlay" id="addOverlay" onclick="closeAddOutside(event)">
+    <div class="modal modal--wide">
+        <div class="modal-header">
+            <h2 class="modal-title">Yeni Rezervasyon</h2>
+            <button class="modal-close" onclick="closeAddModal()">✕</button>
+        </div>
+        <div class="person-count-row">
+            <label>Kaç kişi?</label>
+            <div class="person-count-btns">
+                @for (int i = 1; i <= 6; i++)
+                {
+                    <button type="button" class="count-btn @(i==1?"active":"")" onclick="setPersonCount(@i,this)">@i</button>
+                }
+            </div>
+        </div>
+        <div class="form-section-title">Ortak Bilgiler</div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Oda <span class="req">*</span></label>
+                <select id="add-room" required>
+                    <option value="">Seçiniz</option>
+                    @foreach (var room in rooms)
+                    {
+                        <option value="@room.RoomNumber" data-blockid="@room.BlockId">
+                            @room.Block.BlockName - @room.RoomNumber
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Check-in <span class="req">*</span></label>
+                <input type="date" id="add-checkin" required onchange="validateAddDates()" />
+            </div>
+            <div class="form-group">
+                <label>Check-out <span class="req">*</span></label>
+                <input type="date" id="add-checkout" required onchange="validateAddDates()" />
+            </div>
+            <div class="form-group">
+                <label>Toplam Ücret (₺) <span class="req">*</span></label>
+                <input type="number" id="add-fee" required placeholder="0" min="0" oninput="updateAddDeposit()" />
+            </div>
+            <div class="form-group">
+                <label>Ön Ödeme (₺)</label>
+                <input type="number" id="add-deposit" placeholder="0" min="0" value="0" oninput="validateAddDeposit()" />
+            </div>
+            <div class="form-group">
+                <label>Kalan</label>
+                <input type="text" id="add-remaining" readonly style="background:#f0f0f0;" value="₺0" />
+            </div>
+        </div>
+        <div id="add-date-error"    class="form-error" style="display:none;">⚠ Çıkış tarihi giriş tarihinden sonra olmalıdır.</div>
+        <div id="add-deposit-error" class="form-error" style="display:none;">⚠ Ön ödeme toplam ücretten fazla olamaz.</div>
+        <div class="form-section-title">Müşteri Bilgileri</div>
+        <div id="customerForms"></div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeAddModal()">İptal</button>
+            <button class="btn-primary"   onclick="saveNewReservations()">💾 Kaydet</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════ EDIT MODAL ═══════════════ -->
+<div class="modal-overlay" id="editOverlay" onclick="closeEditOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Rezervasyon Düzenle</h2>
+            <button class="modal-close" onclick="closeEditModal()">✕</button>
+        </div>
+        <div class="form-grid">
+            <input type="hidden" id="edit-id" />
+            <div class="form-group"><label>Ad Soyad <span class="req">*</span></label><input type="text" id="edit-name" /></div>
+            <div class="form-group"><label>TC <span class="req">*</span></label><input type="text" id="edit-tc" maxlength="11" oninput="this.value=this.value.replace(/\D/g,'')" /></div>
+            <div class="form-group"><label>Telefon</label><input type="text" id="edit-phone" /></div>
+            <div class="form-group"><label>Doğum Tarihi</label><input type="date" id="edit-birthday" /></div>
+            <div class="form-group">
+                <label>Oda <span class="req">*</span></label>
+                <select id="edit-room">
+                    <option value="">Seçiniz</option>
+                    @foreach (var room in rooms)
+                    {
+                        <option value="@room.RoomNumber" data-blockid="@room.BlockId">
+                            @room.Block.BlockName - @room.RoomNumber
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group"><label>Check-in <span class="req">*</span></label><input type="date" id="edit-checkin" onchange="validateEditDates()" /></div>
+            <div class="form-group"><label>Check-out <span class="req">*</span></label><input type="date" id="edit-checkout" onchange="validateEditDates()" /></div>
+            <div class="form-group"><label>Toplam Ücret (₺) <span class="req">*</span></label><input type="number" id="edit-fee" min="0" /></div>
+            <div class="form-group full">
+                <label>Durum</label>
+                <select id="edit-status">
+                    <option value="1">📅 Rezerve</option>
+                    <option value="2">✔ Odada</option>
+                    <option value="3">🏁 Çıkış Yaptı</option>
+                    <option value="4">✕ İptal</option>
+                </select>
+            </div>
+        </div>
+        <div id="edit-date-error" class="form-error" style="display:none;">⚠ Çıkış tarihi giriş tarihinden sonra olmalıdır.</div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeEditModal()">İptal</button>
+            <button class="btn-primary"   onclick="saveEdit()">💾 Güncelle</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════ TRANSFER MODAL ═══════════════ -->
+<div class="modal-overlay" id="transferOverlay" onclick="closeTransferOutside(event)">
+    <div class="modal modal--sm">
+        <div class="modal-header">
+            <h2 class="modal-title">🔀 Oda Transferi</h2>
+            <button class="modal-close" onclick="closeTransferModal()">✕</button>
+        </div>
+        <input type="hidden" id="transfer-id" />
+        <div class="form-group" style="margin-bottom:14px;">
+            <label>Yeni Oda <span class="req">*</span></label>
+            <select id="transfer-room">
+                <option value="">Seçiniz</option>
+                @foreach (var room in rooms)
+                {
+                    <option value="@room.RoomNumber" data-blockid="@room.BlockId">
+                        @room.Block.BlockName - @room.RoomNumber
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeTransferModal()">İptal</button>
+            <button class="btn-primary"   onclick="saveTransfer()">🔀 Transfer Et</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════ PAYMENT MODAL ═══════════════ -->
+<div class="modal-overlay" id="paymentOverlay" onclick="closePaymentOutside(event)">
+    <div class="modal modal--sm">
+        <div class="modal-header">
+            <h2 class="modal-title">💳 Ödeme Güncelle</h2>
+            <button class="modal-close" onclick="closePaymentModal()">✕</button>
+        </div>
+        <input type="hidden" id="payment-id" />
+        <div class="form-grid">
+            <div class="form-group"><label>Toplam Ücret</label><input type="text" id="payment-total" readonly style="background:#f0f0f0;" /></div>
+            <div class="form-group"><label>Kalan</label><input type="text" id="payment-remaining" readonly style="background:#f0f0f0;" /></div>
+            <div class="form-group full">
+                <label>Ön Ödeme (₺) <span class="req">*</span></label>
+                <input type="number" id="payment-deposit" min="0" oninput="updatePaymentRemaining()" />
+            </div>
+        </div>
+        <div id="payment-error" class="form-error" style="display:none;">⚠ Ön ödeme toplam ücretten fazla olamaz.</div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closePaymentModal()">İptal</button>
+            <button class="btn-primary"   onclick="savePayment()">💾 Kaydet</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════ JS ═══════════════ -->
+<script>
+const allRez = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+    Model?.Select(r => new {
+        id            = r.ID,
+        roomNumber    = r.RoomNumber,
+        blockID       = r.BlockID,
+        customerTC    = r.CustomerTC,
+        name          = r.NameAndSurname,
+        phone         = r.Phone ?? "",
+        birthday      = r.BirthdayDate.HasValue ? r.BirthdayDate.Value.ToString("yyyy-MM-dd") : "",
+        checkIn       = r.CheckInDate.ToString("yyyy-MM-dd"),
+        checkOut      = r.CheckOutDate.ToString("yyyy-MM-dd"),
+        feePaid       = r.FeePaid,
+        depositAmount = r.DepositAmount,
+        status        = r.Status
+    }) ?? Enumerable.Empty<object>()
+));
+</script>
+<script src="~/js/receptionUserView.js"></script>

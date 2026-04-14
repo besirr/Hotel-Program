@@ -1,0 +1,104 @@
+﻿:root {
+    --bg: #f5f6fa;
+    --bg-white: #ffffff;
+    --primary: #4f6ef7;
+    --primary-dim: rgba(79, 110, 247, 0.10);
+    --text-dark: #1a1d2e;
+    --text-light: #9aa0bc;
+    --border: #e4e7f0;
+    --shadow-sm: 0 1px 4px rgba(30,40,90,0.07);
+    --radius: 12px;
+    --header-h: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ─── MAIN ─── */
+.main {
+    padding-top: var(--header-h);
+    min-height: 100vh;
+}
+
+/* ─── PAGE ─── */
+.page {
+    padding: 36px 44px;
+    display: none;
+    animation: fadeUp 0.35s ease;
+}
+
+    .page.active {
+        display: block;
+    }
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── WELCOME ─── */
+.welcome-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 62vh;
+    text-align: center;
+    gap: 12px;
+}
+
+.welcome-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    border: 1px solid rgba(79,110,247,0.18);
+}
+
+.welcome-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.02em;
+}
+
+    .welcome-title span {
+        color: var(--primary);
+    }
+
+.welcome-sub {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    max-width: 300px;
+    line-height: 1.65;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+    .page {
+        padding: 20px 16px;
+    }
+}

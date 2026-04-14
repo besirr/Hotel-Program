@@ -1,0 +1,295 @@
+@model RoomAssignmentViewModel
+@{
+    ViewData["Title"] = "Oda Atama";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/roomassign.css" />
+
+<div class="topbar">
+    <a class="btn-back" asp-action="AdminView" asp-controller="AdminPanel">&#8592; Panele Dön</a>
+    <div class="topbar-title">
+        <span class="topbar-icon">&#127968;</span>
+        Oda Atama Yönetimi
+    </div>
+    <div class="topbar-right">
+        <span class="status-dot"></span>
+        <span id="topbar-status">Hazır</span>
+    </div>
+</div>
+
+<div class="main-wrap">
+
+    <div class="panel panel-left">
+        <div class="panel-header">
+            <div class="panel-header-title">
+                <span class="panel-icon">&#128100;</span>
+                Personel Seçimi
+            </div>
+            <span class="badge" id="userCount">0 kişi</span>
+        </div>
+
+        <div class="search-wrap">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="userSearch" placeholder="İsim veya TC ile ara..." oninput="filterUsers()" />
+        </div>
+
+        <div class="user-list" id="userList">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <span>Yükleniyor...</span>
+            </div>
+        </div>
+
+        <div class="selected-user-card" id="selectedUserCard" style="display:none;">
+            <div class="selected-label">Seçili Personel</div>
+            <div class="selected-name" id="selectedUserName">—</div>
+            <div class="selected-meta" id="selectedUserMeta">—</div>
+        </div>
+    </div>
+
+    <div class="arrow-mid">
+        <div class="arrow-line"></div>
+        <div class="arrow-head">&#10145;</div>
+    </div>
+
+    <div class="panel panel-right">
+        <div class="panel-header">
+            <div class="panel-header-title">
+                <span class="panel-icon">&#128196;</span>
+                Oda Seçimi
+            </div>
+            <span class="badge" id="selectedRoomCount">0 seçili</span>
+        </div>
+
+        <div class="room-stats-row" id="roomStatsRow">
+            <div class="room-stat-item" title="Toplam oda">
+                <span class="stat-icon">&#127968;</span>
+                <span id="statTotal">0</span>
+                <span class="stat-label">Toplam</span>
+            </div>
+            <div class="room-stat-item stat-customer" title="Müşteri içeride (Giriş Yapıldı)">
+                <span class="stat-icon">&#128100;</span>
+                <span id="statOccupied">0</span>
+                <span class="stat-label">Müşteri Var</span>
+            </div>
+            <div class="room-stat-item stat-reserved" title="Rezerve odalar">
+                <span class="stat-icon">&#128197;</span>
+                <span id="statReserved">0</span>
+                <span class="stat-label">Rezerve</span>
+            </div>
+            <div class="room-stat-item stat-free" title="Boş odalar">
+                <span class="stat-icon">&#10003;</span>
+                <span id="statFree">0</span>
+                <span class="stat-label">Boş</span>
+            </div>
+        </div>
+
+        <div class="room-filter-row">
+            <input type="text" id="roomSearch" placeholder="Oda no ara..." oninput="filterRooms()" class="room-search" />
+            <div class="floor-tabs" id="blockTabs">
+                <button class="floor-tab active" onclick="filterBlock('all', this)">Tümü</button>
+                @foreach (var b in Model.Blocks)
+                {
+                    <button class="floor-tab" onclick="filterBlock('@b.Id', this)">@b.BlockName</button>
+                }
+            </div>
+        </div>
+
+        <div class="legend-row">
+            <span class="legend-item"><span class="legend-dot" style="background:#fb923c;border:1px solid #f97316;"></span>Müşteri İçeride</span>
+            <span class="legend-item"><span class="legend-dot" style="background:#c084fc;border:1px solid #a855f7;"></span>Rezerve</span>
+            <span class="legend-item"><span class="legend-dot" style="background:#fbbf24;border:1px solid #f59e0b;"></span>Temizleniyor</span>
+            <span class="legend-item"><span class="legend-dot" style="background:#f87171;border:1px solid #ef4444;"></span>Başkası Üzerinde</span>
+            <span class="legend-item"><span class="legend-dot" style="background:#4ade80;border:1px solid #22c55e;"></span>Boş</span>
+        </div>
+
+        <div class="room-grid" id="roomGrid">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <span>Yükleniyor...</span>
+            </div>
+        </div>
+
+        <div class="selected-rooms-wrap" id="selectedRoomsWrap" style="display:none;">
+            <div class="selected-rooms-label">Seçili Odalar:</div>
+            <div class="selected-rooms-tags" id="selectedRoomsTags"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="action-bar">
+    <div class="action-summary" id="actionSummary">
+        Lütfen personel ve oda seçiniz
+    </div>
+    <button class="btn-assign" id="btnAssign" onclick="assignRooms()" disabled>
+        <span class="btn-icon">&#10003;</span>
+        Oda Ata
+    </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<style>
+    /* Oda durum etiketleri */
+    .room-status-badge {
+        font-size: 0.60rem;
+        font-weight: 600;
+        padding: 2px 5px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: 2px;
+        letter-spacing: 0.02em;
+        line-height: 1.3;
+    }
+    .badge-cleaning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffc107;
+    }
+    .badge-assigned {
+        background: #fde8e8;
+        color: #9b1c1c;
+        border: 1px solid #f87171;
+    }
+    .badge-self {
+        background: #e0f2fe;
+        color: #075985;
+        border: 1px solid #38bdf8;
+    }
+    .badge-free {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #4ade80;
+    }
+    .badge-customer {
+        background: #fff0e6;
+        color: #c2410c;
+        border: 1px solid #fb923c;
+        font-weight: 700;
+    }
+    .badge-reserved {
+        background: #f3e8ff;
+        color: #6b21a8;
+        border: 1px solid #c084fc;
+    }
+    /* Room stats row */
+    .room-stats-row {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid #deeaf8;
+        background: linear-gradient(135deg, #f8faff 0%, #f0f6ff 100%);
+    }
+    .room-stat-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 4px;
+        font-family: 'IBM Plex Mono', monospace;
+        border-right: 1px solid #deeaf8;
+        cursor: default;
+        transition: background 0.15s;
+        gap: 1px;
+    }
+    .room-stat-item:last-child { border-right: none; }
+    .room-stat-item:hover { background: #e8f1fd; }
+    .room-stat-item .stat-icon {
+        font-size: 0.85rem;
+        line-height: 1;
+    }
+    .room-stat-item span:nth-child(2) {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1a3f6f;
+        line-height: 1;
+    }
+    .room-stat-item .stat-label {
+        font-size: 0.64rem;
+        color: #7a9cbf;
+        font-family: 'IBM Plex Sans', sans-serif;
+        letter-spacing: 0.03em;
+        font-weight: 500;
+    }
+    .stat-customer span:nth-child(2) { color: #c2410c; }
+    .stat-reserved span:nth-child(2) { color: #6b21a8; }
+    .stat-free span:nth-child(2) { color: #166534; }
+    /* Customer uyarı şeridi */
+    .room-card.has-customer {
+        border-color: #fb923c !important;
+        box-shadow: 0 0 0 1px rgba(251,146,60,0.25);
+    }
+    .room-card.has-customer.selected {
+        border-color: #f97316 !important;
+    }
+    .room-card.has-reserved {
+        border-color: #c084fc !important;
+        box-shadow: 0 0 0 1px rgba(192,132,252,0.2);
+    }
+    /* Legend */
+    .legend-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 6px 14px 4px;
+        border-bottom: 1px solid #deeaf8;
+    }
+    .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.72rem;
+        color: #3b5980;
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 3px;
+        flex-shrink: 0;
+    }
+</style>
+
+<script>
+    const USERS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        Model.Users.Select(u => new {
+            id   = u.ID,
+            name = (u.UsernameLastname ?? ""),
+            tc   = u.TC,
+            role = u.RoleID == 1 ? "Müdür" :
+                   u.RoleID == 2 ? "Oda Temizlik Çalışanı" : "Diğer Personel"
+        })
+    ));
+
+    const ROOMS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        Model.Rooms.Select(r => new {
+            id        = r.Id,
+            number    = r.RoomNumber,
+            blockId   = r.BlockId,
+            blockName = r.Block != null ? r.Block.BlockName : "Blok " + r.BlockId,
+            isActive  = r.IsActive,
+            floor     = r.RoomNumber / 100
+        })
+    ));
+
+    const ACTIVE_TASKS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        ((IEnumerable<dynamic>)ViewBag.ActiveTasks).Select(t => new {
+            roomNumber = (int)t.RoomNumber,
+            blockId    = (int)t.BlockId,
+            userId     = (int)t.UserID
+        })
+    ));
+
+    const OCCUPIED_ROOMS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        ((IEnumerable<dynamic>)ViewBag.OccupiedRooms).Select(r => new {
+            roomNumber = (int)r.RoomNumber,
+            blockId    = (int)r.BlockID,
+            status     = (int)r.Status,
+            guestName  = (string)(r.NameAndSurname ?? "")
+        })
+    ));
+</script>
+<script src="~/js/adminRoomAssignment.js"></script>

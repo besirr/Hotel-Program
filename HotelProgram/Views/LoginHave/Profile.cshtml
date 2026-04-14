@@ -1,0 +1,101 @@
+﻿@model HotelProgram.Models.User
+
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/profile.css" />
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <!-- Sağ üst geri butonu -->
+        <div class="profile-topbar">
+            <a class="btn-back" asp-action="AdminView" asp-controller="AdminPanel">&larr; Panele Dön</a>
+        </div>
+
+        <!-- Banner + Avatar -->
+        <div class="profile-banner">
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar">🧑</div>
+            </div>
+        </div>
+
+        <div class="profile-body">
+
+            <!-- Ad / Rozet -->
+            <div class="profile-name-row">
+                <div>
+                    <div class="profile-name">@Model.UsernameLastname</div>
+                    <div class="profile-username">@@@Model.Username</div>
+                </div>
+                @if (Model.Authority == 1)
+                {
+                    <span class="authority-badge admin">⭐ Admin</span>
+                }
+                else
+                {
+                    <span class="authority-badge user">👤 Kullanici</span>
+                }
+            </div>
+
+            <!-- Bilgi Kartlari -->
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Kullanici Adi</div>
+                    <div class="info-value">@Model.Username</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Ad Soyad</div>
+                    <div class="info-value">@Model.UsernameLastname</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">TC Kimlik No</div>
+                    <div class="info-value mono">@Model.TC</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Kullanici ID</div>
+                    <div class="info-value mono">#@Model.ID</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Sifre Degistir -->
+            <div class="section-title">Sifre Degistir</div>
+
+            <div id="alertBox" class="alert"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Mevcut Sifre</label>
+                    <input class="form-input" type="password" id="CurrentPassword"
+                           placeholder="Mevcut sifreniz" />
+                </div>
+                <div class="form-group"></div>
+                <div class="form-group">
+                    <label class="form-label">Yeni Sifre</label>
+                    <input class="form-input" type="password" id="newPassword"
+                           placeholder="Yeni sifreniz" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Yeni Sifre (Tekrar)</label>
+                    <input class="form-input" type="password" id="confirmPassword"
+                           placeholder="Yeni sifrenizi tekrar girin" />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-ghost" onclick="clearForm()">Temizle</button>
+                <button class="btn btn-primary" onclick="changePassword(@Model.ID)">
+                    💾 Kaydet
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/js/profile.js"></script>

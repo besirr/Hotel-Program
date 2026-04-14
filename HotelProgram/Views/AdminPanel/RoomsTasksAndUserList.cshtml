@@ -1,0 +1,238 @@
+@model IEnumerable<HotelProgram.Models.RoomsTasksAndUserList>
+
+@{
+    ViewData["Title"] = "Oda Görevleri";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oda Görevleri ve Kullanıcı Listesi</title>
+    <link rel="stylesheet" href="~/css/RoomsTasksAndUserList.css" />
+</head>
+<body>
+
+    <main class="main">
+        <section class="page">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Oda Görevleri</h1>
+                    <p class="page-subtitle">Kullanıcı & Görev Yönetimi</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <a class="btn-back" asp-action="AdminView" asp-controller="AdminPanel">&larr; Panele Dön</a>
+                    <span class="badge-count" id="rowCount">@(Model?.Count() ?? 0) kayıt</span>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="label">Toplam Kayıt</span>
+                    <span class="value">@Model.Count()</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Aktif Görevler</span>
+                    <span class="value">@Model.Count(x => x.BitmeTarihi == null)</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Tamamlanan</span>
+                    <span class="value">@Model.Count(x => x.BitmeTarihi != null)</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Benzersiz Oda</span>
+                    <span class="value">@Model.Select(x => x.RoomNumber).Distinct().Count()</span>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <div class="table-toolbar">
+                    <div class="search-box">
+                        <span class="search-icon">&#128269;</span>
+                        <input type="text" id="searchInput"
+                               placeholder="Kullanıcı adı veya oda no ile ara..."
+                               oninput="filterTable()" />
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">
+                            &#9776; Tümü
+                        </button>
+                        <button class="filter-btn" data-filter="active" onclick="setFilter('active', this)">
+                            &#9679; Aktif
+                        </button>
+                        <button class="filter-btn" data-filter="done" onclick="setFilter('done', this)">
+                            &#10003; Tamamlanan
+                        </button>
+                    </div>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table id="mainTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı Adı</th>
+                                <th>Ad Soyad</th>
+                                <th>Kullanıcı ID</th>
+                                <th>Blok</th>
+                                <th>Oda No</th>
+                                <th>Atanma Tarihi</th>
+                                <th>Bitiş Tarihi</th>
+                                <th>Durum</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row-@item.ID"
+                                        data-room="@item.RoomNumber"
+                                        data-block="@item.BlockId"
+                                        data-status="@(item.BitmeTarihi == null ? "active" : "done")">
+
+                                        <td style="color:var(--text-light);font-size:0.78rem;">#@item.ID</td>
+
+                                        <!-- Kullanıcı Adı -->
+                                        <td>
+                                            <span class="view-mode td-username">@item.Username</span>
+                                            <select class="edit-mode edit-input" name="UserSelect" style="display:none;"
+                                                    onchange="onUserChange(this, @item.ID)"></select>
+                                        </td>
+
+                                        <!-- Ad Soyad -->
+                                        <td>
+                                            <span class="view-mode td-fullname">@item.UsernameLastname</span>
+                                            <span class="edit-mode td-fullname-edit" style="display:none;color:var(--text-light);font-size:0.85rem;"></span>
+                                            <input type="hidden" class="edit-mode" name="UsernameLastname" value="@item.UsernameLastname" />
+                                        </td>
+
+                                        <!-- Kullanıcı ID -->
+                                        <td>
+                                            <span class="view-mode td-userid" style="color:var(--text-light);font-size:0.8rem;">@item.UserID</span>
+                                            <span class="edit-mode td-userid-edit" style="display:none;color:var(--text-light);font-size:0.8rem;"></span>
+                                            <input type="hidden" class="edit-mode" name="UserID" value="@item.UserID" />
+                                        </td>
+
+                                        <!-- Blok -->
+                                        <td>
+                                            <span class="view-mode td-blockname">
+                                                <span class="badge badge-room">@item.BlockName</span>
+                                            </span>
+                                            <span class="edit-mode td-blockname-edit" style="display:none;color:var(--text-light);font-size:0.85rem;"></span>
+                                            <input type="hidden" class="edit-mode" name="BlockId" value="@item.BlockId" />
+                                        </td>
+
+                                        <!-- Oda No -->
+                                        <td>
+                                            <span class="view-mode">
+                                                <span class="badge badge-room">@item.RoomNumber</span>
+                                            </span>
+                                            <select class="edit-mode edit-input" name="RoomSelect" style="display:none;"
+                                                    onchange="onRoomChange(this, @item.ID)"></select>
+                                            <input type="hidden" class="edit-mode" name="RoomNumber" value="@item.RoomNumber" />
+                                        </td>
+
+                                        <!-- Atanma Tarihi -->
+                                        <td>
+                                            <span class="view-mode">
+                                                <div class="date-cell">
+                                                    @item.AtanmaTarihi.ToString("dd.MM.yyyy")
+                                                    <div class="time">@item.AtanmaTarihi.ToString("HH:mm")</div>
+                                                </div>
+                                            </span>
+                                            <input class="edit-mode edit-input" name="AtanmaTarihi"
+                                                   type="datetime-local"
+                                                   value="@item.AtanmaTarihi.ToString("yyyy-MM-ddTHH:mm")"
+                                                   style="display:none;" />
+                                        </td>
+
+                                        <!-- Bitiş Tarihi -->
+                                        <td>
+                                            <span class="view-mode">
+                                                @if (item.BitmeTarihi.HasValue)
+                                                {
+                                                    <div class="date-cell">
+                                                        @item.BitmeTarihi.Value.ToString("dd.MM.yyyy")
+                                                        <div class="time">@item.BitmeTarihi.Value.ToString("HH:mm")</div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color:var(--text-light);">—</span>
+                                                }
+                                            </span>
+                                            <input class="edit-mode edit-input" name="BitmeTarihi"
+                                                   type="datetime-local"
+                                                   value="@(item.BitmeTarihi.HasValue? item.BitmeTarihi.Value.ToString("yyyy-MM-ddTHH:mm") : "")"
+                                                   style="display:none;" />
+                                        </td>
+
+                                        <!-- Durum -->
+                                        <td>
+                                            <span class="view-mode">
+                                                @if (item.BitmeTarihi == null)
+                                                {
+                                                    <span class="badge badge-active">&#9679; Aktif</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-passive">&#9679; Tamamlandı</span>
+                                                }
+                                            </span>
+                                        </td>
+
+                                        <!-- İşlemler -->
+                                        <td>
+                                            <div class="actions">
+                                                <button class="btn btn-edit view-mode" onclick="startEdit(@item.ID)">
+                                                    &#9999;&#65039; Düzenle
+                                                </button>
+                                                <a class="btn btn-delete view-mode"
+                                                   href="/AdminPanel/RoomAndUserDelete/@item.ID"
+                                                   onclick="return confirm('Bu kaydı silmek istediğinizden emin misiniz?')">
+                                                    &#128465; Sil
+                                                </a>
+                                                <button class="btn btn-save edit-mode" style="display:none;" onclick="saveEdit(@item.ID)">
+                                                    &#10003; Kaydet
+                                                </button>
+                                                <button class="btn btn-cancel edit-mode" style="display:none;" onclick="cancelEdit(@item.ID)">
+                                                    &#10007; Vazgeç
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr id="emptyRow">
+                                    <td colspan="10" style="text-align:center;padding:48px;color:var(--text-light);">
+                                        Henüz kayıtlı görev bulunmuyor.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span class="count" id="footerCount">@(Model?.Count() ?? 0) kayıt gösteriliyor</span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        const userList = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.UserList));
+        const roomList = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.RoomList));
+    </script>
+    <script src="~/js/roomsTasksUserList.js"></script>
+
+</body>
+</html>

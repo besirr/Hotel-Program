@@ -1,0 +1,558 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+:root {
+    --bg: #f0f2f8;
+    --bg-white: #ffffff;
+    --bg-hover: #e8eaf4;
+    --primary: #4f6ef7;
+    --primary-dim: rgba(79, 110, 247, 0.10);
+    --primary-mid: rgba(79, 110, 247, 0.18);
+    --text-dark: #1a1d2e;
+    --text-mid: #5a6080;
+    --text-light: #9aa0bc;
+    --border: #e4e7f0;
+    --border-dark: #d0d4e8;
+    --red: #d94f4f;
+    --red-dim: rgba(217, 79, 79, 0.10);
+    --red-border: rgba(217, 79, 79, 0.22);
+    --green: #2a9a5e;
+    --green-dim: rgba(42, 154, 94, 0.10);
+    --green-border: rgba(42, 154, 94, 0.25);
+    --shadow-sm: 0 1px 4px rgba(30, 40, 90, 0.07);
+    --shadow-md: 0 4px 20px rgba(30, 40, 90, 0.10);
+    --shadow-lg: 0 12px 48px rgba(30, 40, 90, 0.14);
+    --radius: 14px;
+    --radius-sm: 9px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+    /* ── Arkaplan orb'ları ── */
+    body::before,
+    body::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    body::before {
+        width: 480px;
+        height: 480px;
+        top: -160px;
+        right: -140px;
+        background: radial-gradient(circle, rgba(79, 110, 247, 0.13) 0%, transparent 70%);
+        animation: orbFloat 10s ease-in-out infinite;
+    }
+
+    body::after {
+        width: 400px;
+        height: 400px;
+        bottom: -120px;
+        left: -100px;
+        background: radial-gradient(circle, rgba(42, 154, 94, 0.09) 0%, transparent 70%);
+        animation: orbFloat 10s ease-in-out infinite reverse;
+        animation-delay: -5s;
+    }
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(-25px, 20px) scale(1.05);
+    }
+
+    66% {
+        transform: translate(20px, -18px) scale(0.97);
+    }
+}
+
+/* ── Kart ── */
+.register-card {
+    position: relative;
+    z-index: 1;
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 40px 36px;
+    animation: cardEntrance 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+    .register-card:hover {
+        box-shadow: 0 20px 64px rgba(30, 40, 90, 0.18);
+        transform: translateY(-2px);
+    }
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(36px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Kart Başlık Alanı ── */
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+    animation: fadeDown 0.5s ease 0.15s both;
+}
+
+.logo-mark {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--primary-dim);
+    border: 1px solid var(--primary-mid);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.register-card:hover .logo-mark {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.register-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    letter-spacing: -0.025em;
+    margin-bottom: 5px;
+}
+
+.register-sub {
+    font-size: 0.83rem;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.5;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Mesaj Kutuları ── */
+.errorBox,
+.successBox {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.83rem;
+    font-weight: 500;
+    margin-bottom: 18px;
+    line-height: 1.4;
+}
+
+.errorBox {
+    background: var(--red-dim);
+    border: 1px solid var(--red-border);
+    color: var(--red);
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.successBox {
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+    animation: successPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+    .errorBox svg,
+    .successBox svg {
+        flex-shrink: 0;
+    }
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    15% {
+        transform: translateX(-7px);
+    }
+
+    30% {
+        transform: translateX(7px);
+    }
+
+    45% {
+        transform: translateX(-5px);
+    }
+
+    60% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    90% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes successPop {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ── Form ── */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+    /* Staggered alan animasyonları — tüm 5 alan kapsanıyor */
+    .register-form .field-group:nth-child(1) {
+        animation: fadeUp 0.5s ease 0.28s both;
+    }
+
+    .register-form .field-group:nth-child(2) {
+        animation: fadeUp 0.5s ease 0.35s both;
+    }
+
+    .register-form .field-group:nth-child(3) {
+        animation: fadeUp 0.5s ease 0.42s both;
+    }
+
+    .register-form .field-group:nth-child(4) {
+        animation: fadeUp 0.5s ease 0.49s both;
+    }
+
+    .register-form .field-group:nth-child(5) {
+        animation: fadeUp 0.5s ease 0.56s both;
+    }
+
+    .register-form .registerButton {
+        animation: fadeUp 0.5s ease 0.62s both;
+    }
+
+    .register-form .divider {
+        animation: fadeUp 0.5s ease 0.67s both;
+    }
+
+    .register-form .back-link {
+        animation: fadeUp 0.5s ease 0.72s both;
+    }
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Alan Grubu ── */
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    transition: color 0.2s;
+}
+
+.field-group:focus-within .field-label {
+    color: var(--primary);
+}
+
+/* ── Input Sarmalayıcı ── */
+.field-wrap {
+    position: relative;
+}
+
+.field-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    transition: color 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+}
+
+.field-wrap:focus-within .field-icon {
+    color: var(--primary);
+    transform: translateY(-50%) scale(1.18) rotate(-5deg);
+}
+
+/* ── Text Input ── */
+.field-wrap input {
+    width: 100%;
+    padding: 11px 14px 11px 40px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+    .field-wrap input::placeholder {
+        color: var(--text-light);
+    }
+
+    .field-wrap input:focus {
+        border-color: var(--primary);
+        background: var(--bg-white);
+        box-shadow: 0 0 0 3px var(--primary-dim);
+    }
+
+/* ── Şifre Göster/Gizle Butonu ── */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+    .toggle-password:hover {
+        color: var(--primary);
+    }
+
+/* Şifre inputunda sağ padding — toggle buton için alan */
+#passwordInput {
+    padding-right: 40px;
+}
+
+/* ── Select ── */
+.select-wrap select {
+    width: 100%;
+    padding: 11px 40px 11px 40px; /* sağ: ok ikonu için */
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+    .select-wrap select:focus {
+        border-color: var(--primary);
+        background: var(--bg-white);
+        box-shadow: 0 0 0 3px var(--primary-dim);
+    }
+
+.select-arrow {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.select-wrap:focus-within .select-arrow {
+    color: var(--primary);
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* ── Doğrulama hatası ── */
+.field-error {
+    font-size: 0.76rem;
+    color: var(--red);
+    min-height: 1em;
+}
+
+/* ── Kayıt Ol Butonu ── */
+.registerButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 4px;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--primary);
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(79, 110, 247, 0.30);
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Shine sweep efekti */
+    .registerButton::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.22) 50%, transparent 100%);
+        transition: left 0.5s ease;
+    }
+
+    .registerButton:hover::before {
+        left: 160%;
+    }
+
+    .registerButton:hover {
+        background: #3d5ce8;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(79, 110, 247, 0.42);
+    }
+
+    .registerButton:active {
+        transform: scale(0.97);
+        box-shadow: 0 2px 8px rgba(79, 110, 247, 0.22);
+    }
+
+    .registerButton svg {
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+    }
+
+    .registerButton:hover svg {
+        transform: translateX(2px);
+    }
+
+/* ── Ayraç ── */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-light);
+    font-size: 0.78rem;
+    user-select: none;
+}
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+
+/* ── Geri Dön Linki ── */
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 11px 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-white);
+    color: var(--text-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.25s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+    .back-link:hover {
+        background: var(--bg-hover);
+        border-color: var(--border-dark);
+        color: var(--text-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .back-link:active {
+        transform: scale(0.98);
+    }
+
+/* ── Mobil ── */
+@media (max-width: 480px) {
+    .register-card {
+        padding: 32px 22px 28px;
+    }
+}
