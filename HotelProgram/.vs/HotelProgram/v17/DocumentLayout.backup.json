@@ -7,28 +7,28 @@
       "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\auth\\loginhave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\controllers\\admin\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:controllers\\admin\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\loginhave\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\loginhave\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\wwwroot\\js\\adminuserspanel.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:wwwroot\\js\\adminuserspanel.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\userpanel\\receptionuserview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\userpanel\\receptionuserview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\models\\loginmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:models\\loginmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\views\\loginhave\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:views\\loginhave\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|c:\\users\\besir\\onedrive\\desktop\\hotelprogram\\models\\passwordreset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38E73EBD-3862-F280-327B-92823B14C972}|HotelProgram.csproj|solutionrelative:models\\passwordreset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 231,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,29 +46,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LoginHave.cs",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
-              "RelativeDocumentMoniker": "Controllers\\Auth\\LoginHave.cs",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
-              "RelativeToolTip": "Controllers\\Auth\\LoginHave.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAwwDIAAABbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T09:53:22.121Z",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAwwEIAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-23T18:32:34.466Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Home\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Home\\HomeController.cs",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Home\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\Home\\HomeController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAA1wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T09:53:13.612Z",
-              "EditorCaption": ""
+              "DocumentIndex": 3,
+              "Title": "adminUsersPanel.js",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\wwwroot\\js\\adminUsersPanel.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\adminUsersPanel.js",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\wwwroot\\js\\adminUsersPanel.js",
+              "RelativeToolTip": "wwwroot\\js\\adminUsersPanel.js",
+              "ViewState": "AgIAACQAAAAAAAAAAAAhwB4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-22T09:33:50.838Z"
             },
             {
               "$type": "Document",
@@ -78,62 +77,58 @@
               "RelativeDocumentMoniker": "Controllers\\Admin\\AdminPanelController.cs",
               "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Admin\\AdminPanelController.cs",
               "RelativeToolTip": "Controllers\\Admin\\AdminPanelController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAAF0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T09:53:05.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Register.cshtml",
-              "RelativeDocumentMoniker": "Views\\LoginHave\\Register.cshtml",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Register.cshtml",
-              "RelativeToolTip": "Views\\LoginHave\\Register.cshtml",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-14T09:52:53.417Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-22T09:33:07.963Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAANAAAAAAAAAA==",
+              "Title": "PasswordReset.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\PasswordReset.cs",
+              "RelativeDocumentMoniker": "Models\\PasswordReset.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\PasswordReset.cs",
+              "RelativeToolTip": "Models\\PasswordReset.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T09:46:15.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-15T13:21:10.024Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginModels.cs",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\LoginModels.cs",
-              "RelativeDocumentMoniker": "Models\\LoginModels.cs",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Models\\LoginModels.cs",
-              "RelativeToolTip": "Models\\LoginModels.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "LoginHave.cs",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
+              "RelativeDocumentMoniker": "Controllers\\Auth\\LoginHave.cs",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Controllers\\Auth\\LoginHave.cs",
+              "RelativeToolTip": "Controllers\\Auth\\LoginHave.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAqwDwAAABuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T09:46:09.977Z",
+              "WhenOpened": "2026-04-15T12:52:58.544Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ReceptionUserView.cshtml",
-              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\UserPanel\\ReceptionUserView.cshtml",
-              "RelativeDocumentMoniker": "Views\\UserPanel\\ReceptionUserView.cshtml",
-              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\UserPanel\\ReceptionUserView.cshtml",
-              "RelativeToolTip": "Views\\UserPanel\\ReceptionUserView.cshtml",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAqwIwAAAARAAAAAAAAAA==",
+              "Title": "profile.js",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\wwwroot\\js\\profile.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\profile.js",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\wwwroot\\js\\profile.js",
+              "RelativeToolTip": "wwwroot\\js\\profile.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-15T12:52:11.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Profile.cshtml",
+              "RelativeDocumentMoniker": "Views\\LoginHave\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\besir\\OneDrive\\Desktop\\HotelProgram\\Views\\LoginHave\\Profile.cshtml",
+              "RelativeToolTip": "Views\\LoginHave\\Profile.cshtml",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAAGUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-14T08:45:45.658Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-15T12:44:28.835Z"
             }
           ]
         }

@@ -29,14 +29,15 @@ namespace HotelProgram.Controllers.Auth
 
             var user = _context.Users.FirstOrDefault(o => o.Username == model.Username && o.Password == model.Password);
 
-             if(user != null)
-             {
-                if(user.IsActive == 0)
+            if (user != null)
+            {
+                if (user.IsActive == 0)
                 {
                     ViewBag.Error = "Hesabınız aktif değil. Lütfen yöneticiniz ile iletişime geçiniz.";
                     return View(model);
                 }
-                    else { 
+                else
+                {
                     if (user.Authority == 1)
                     {
 
@@ -57,7 +58,7 @@ namespace HotelProgram.Controllers.Auth
                         HttpContext.Session.SetString("RoleID", user.RoleID.ToString());
                         return RedirectToAction("UserView", "UserPanel");
                     }
-                    else if (user.Authority == 0 && user.IsActive == 1 && user.RoleID == 1)
+                    else if (user.Authority == 0 && user.IsActive == 1 && user.RoleID == 1 || user.RoleID == 2)
                     {
                         HttpContext.Session.SetString("Username", user.Username.ToString());//"" içinde ki username stringi Username.ToString kaydediyr
                         HttpContext.Session.SetString("UsernameLastname", user.UsernameLastname.ToString());
@@ -82,12 +83,12 @@ namespace HotelProgram.Controllers.Auth
         // REGISTER GET
         public IActionResult Back()
         {
-             return RedirectToAction("Login", "LoginHave");
+            return RedirectToAction("Login", "LoginHave");
         }
         [HttpGet]
         public IActionResult Register()
         {
-             return View();
+            return View();
         }
 
         // REGISTER POST
@@ -105,17 +106,17 @@ namespace HotelProgram.Controllers.Auth
                 return View(model);
             }
 
-                User user = new User()
-                {
-                    TC = model.TC,
-                    Username = model.Username,
-                    UsernameLastname = model.UsernameLastname,
-                    Password = model.Password,
-                    RoleID = int.Parse(model.RoleID)
-                };
+            User user = new User()
+            {
+                TC = model.TC,
+                Username = model.Username,
+                UsernameLastname = model.UsernameLastname,
+                Password = model.Password,
+                RoleID = int.Parse(model.RoleID)
+            };
 
-                _context.Users.Add(user);
-                _context.SaveChanges();
+            _context.Users.Add(user);
+            _context.SaveChanges();
 
 
             ViewBag.Success = "Kullanıcı Başarıyla eklendi.";
@@ -137,7 +138,7 @@ namespace HotelProgram.Controllers.Auth
         public IActionResult ChangePassword([FromBody] PasswordReset dto)
         {
             var user = _context.Users.Find(dto.Id);
-            if(user == null || user.Password != dto.CurrentPassword)
+            if (user == null || user.Password != dto.CurrentPassword)
             {
                 return BadRequest("Kullanıcı bulunamadı veya mevcut şifre yanlış.");
             }
@@ -145,8 +146,6 @@ namespace HotelProgram.Controllers.Auth
             _context.SaveChanges();
             return Ok("Şifre başarıyla değiştirildi.");
         }
-
-
 
     }
 }

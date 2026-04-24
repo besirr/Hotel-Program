@@ -64,7 +64,7 @@
                 </a>
             </div>
         }
-        else if (authority == "0" && roleid == "2")
+        else if (authority == "0" && roleid == "2" || roleid == "1")
         {
             <div class="sidebar-header">
                 <span class="sidebar-dot"></span>
@@ -75,7 +75,7 @@
                 <a class="nav-item" asp-action="Profile" asp-controller="LoginHave">
                     <span class="nav-icon">👤</span> Profil
                 </a>
-                <a class="nav-item" asp-action="UserRoomsTasks" asp-controller="UserPanel">
+                <a class="nav-item" asp-action="UserRoomsTaskssqs" asp-controller="UserPanel">
                     <span class="nav-icon">🧹</span> Temizlik Görevleri
                 </a>
                 <a class="nav-item" asp-action="Rooms" asp-controller="UserPanel">

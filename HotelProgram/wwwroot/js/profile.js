@@ -13,7 +13,7 @@ function clearForm() {
     document.getElementById("confirmPassword").value = "";
 }
 
-async function changePassword(userId) {
+async function changePassword(userId) {/////////////////////////
     const current = document.getElementById("CurrentPassword").value.trim();
     const newPw   = document.getElementById("newPassword").value.trim();
     const confirm = document.getElementById("confirmPassword").value.trim();
